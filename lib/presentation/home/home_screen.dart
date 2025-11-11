@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syke/presentation/widget/layout/drawer_widget.dart';
+import 'package:syke/services/login/login_services.dart';
 
 class HomeScreen extends StatefulWidget {
   static final String routeName = 'home_screen';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isLoading = false;
 
-  void loginSer ( BuildContext context) {
+  void loginSer ( BuildContext context) async {
     if(!_formController.currentState!.validate()){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("Por favor, ingrese todos los campos"),
@@ -27,8 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     setState(() {
-      _isLoading = true;
+      _isLoading = false;
     });
+
+    String msn = await LoginServices.getToken(_userController.text, _passwordController.text);
   }
 
   @override
